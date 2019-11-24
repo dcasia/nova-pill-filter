@@ -1,6 +1,6 @@
 <?php
 
-namespace DigitalCreative\TagFilter;
+namespace DigitalCreative\PillFilter;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;

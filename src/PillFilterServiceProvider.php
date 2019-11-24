@@ -1,12 +1,12 @@
 <?php
 
-namespace DigitalCreative\TagFilter;
+namespace DigitalCreative\PillFilter;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Nova;
 
-class FilterServiceProvider extends ServiceProvider
+class PillFilterServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.

@@ -6,7 +6,7 @@
 
 A Laravel Nova filter that renders into clickable pills.
 
-![PillFilter in Action](https://raw.githubusercontent.com/dcasia/nova-mega-filter/master/screenshots/demo-1.png)
+![PillFilter in Action](https://raw.githubusercontent.com/dcasia/nova-pill-filter/master/screenshots/demo-1.png)
 
 # Installation
 
@@ -74,7 +74,7 @@ class ExampleNovaResource extends Resource {
 Additionally you can customize the mode the filter is displayed, by default it wraps to show all pills at once, however
 there is also a drag mode:
 
-![PillFilter in Action](https://raw.githubusercontent.com/dcasia/nova-mega-filter/master/screenshots/demo-2.png)
+![PillFilter in Action](https://raw.githubusercontent.com/dcasia/nova-pill-filter/master/screenshots/demo-2.png)
 
 ```php
 class ExampleNovaResource extends Resource {

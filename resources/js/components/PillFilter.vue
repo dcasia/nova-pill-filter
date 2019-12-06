@@ -8,7 +8,7 @@
                 {{ filter.name }}
             </h3>
 
-            <div ref="content" class="flex p-2 -mt-2" :class="{ 'flex-wrap': filter.mode === 'wrap' }">
+            <div ref="content" class="flex px-2" :class="{ 'flex-wrap': filter.mode === 'wrap' }">
 
                 <Pill v-if="filter.showSelectNoneButton" :active="currentActive.length === 0"
                         @click.native="clearFilters()">

@@ -1,6 +1,6 @@
 <template>
 
-    <div ref="viewport" class="overflow-hidden">
+    <div ref="viewport" class="overflow-hidden pill-filter">
 
         <div>
 
@@ -11,16 +11,16 @@
             <div ref="content" class="flex px-2 pb-2" :class="{ 'flex-wrap': filter.mode === 'wrap' }">
 
                 <Pill v-if="filter.showSelectNoneButton" :active="currentActive.length === 0"
-                        @click.native="clearFilters()">
+                      @click.native="clearFilters()">
 
                     {{ filter.noneLabel }}
 
                 </Pill>
 
                 <Pill v-for="option in filter.options"
-                        :key="option.value"
-                        :active="currentActive.includes(option.value)"
-                        @click.native="enableFilter(option.value)">
+                      :key="option.value"
+                      :active="currentActive.includes(option.value)"
+                      @click.native="enableFilter(option.value)">
 
                     {{ option.name }}
 
@@ -54,11 +54,11 @@
         },
         mounted() {
 
-            if(this.filter.mode === 'drag') {
+            if (this.filter.mode === 'drag') {
 
                 const scrollBooster = new ScrollBooster({
                     viewport: this.$refs.viewport,
-                    mode: 'x',
+                    direction: 'horizontal',
                     emulateScroll: true,
                     textSelection: true,
                     onUpdate: data => {
@@ -110,7 +110,7 @@
         },
         computed: {
             filter() {
-                return this.$store.getters[`${ this.resourceName }/getFilter`](this.filterKey)
+                return this.$store.getters[ `${ this.resourceName }/getFilter` ](this.filterKey)
             },
             currentActive() {
                 return this.filter.currentValue || []

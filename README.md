@@ -6,8 +6,6 @@
 
 A Laravel Nova filter that renders into clickable pills.
 
-![PillFilter in Action](https://raw.githubusercontent.com/dcasia/nova-pill-filter/master/screenshots/demo-1.png)
-
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-pill-filter/nova4/screenshots/dark-1.png">
   <img alt="PillFilter in Action" src="https://raw.githubusercontent.com/dcasia/nova-pill-filter/nova4/screenshots/light-1.png">

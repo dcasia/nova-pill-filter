@@ -6,13 +6,16 @@
 
 A Laravel Nova filter that renders into clickable pills.
 
-![PillFilter in Action](https://raw.githubusercontent.com/dcasia/nova-pill-filter/master/screenshots/demo-1.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/dark-1.png">
+  <img alt="PillFilter in Action" src="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/light-1.png">
+</picture>
 
 # Installation
 
 You can install the package via composer:
 
-```
+```shell
 composer require digital-creative/nova-pill-filter
 ```
 
@@ -30,7 +33,7 @@ class MyFilter extends PillFilter {
         // $values will always be an array
     }
     
-    public function options(Request $request)
+    public function options(NovaRequest $request): array
     {
         return [
            'Display Text 1' => 'value-1',
@@ -46,43 +49,47 @@ and use it as usual on the filters methods within your resource class:
 ```php
 class ExampleNovaResource extends Resource {
 
-    public function filters(Request $request)
+    public function filters(NovaRequest $request): array
     {
         return [
-            new MyFilter()
+            MyFilter::make()
         ];
     }
 
 }
 ```
 
-By default multiple items can be selected, you can restrict it to a single item at time by calling `->single()`
+By default, multiple items can be selected, you can restrict it to a single item at time by calling `->single()`
 
 ```php
 class ExampleNovaResource extends Resource {
 
-    public function filters(Request $request)
+    public function filters(NovaRequest $request): array
     {
         return [
-            (new MyFilter())->single()
+            MyFilter::make()->single()
         ];
     }
 
 }
 ```
 
-Additionally you can customize the mode the filter is displayed, by default it wraps to show all pills at once, however
-there is also a drag mode:
+Additionally, you can customize the mode the filter is displayed, by default it wraps to show all pills at once, however
+there is also a `drag` and `stack` mode:
 
-![PillFilter in Action](https://raw.githubusercontent.com/dcasia/nova-pill-filter/master/screenshots/demo-2.png)
+| Drag Mode                                                                                                                                                                                                                                                                 | Stack Mode                                                                                                                                                                                                                                                                | Wrap Mode                                                                                                                                                                                                                                                               |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/drag-dark.png"><img src="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/drag-light.png"></picture>  | <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/stack-dark.png"><img src="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/stack-light.png"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/wrap-dark.png"><img src="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/wrap-light.png"></picture> |
 
 ```php
 class ExampleNovaResource extends Resource {
 
-    public function filters(Request $request)
+    public function filters(NovaRequest $request): array
     {
         return [
-            (new MyFilter())->dragMode()
+            MyFilter::make()->dragMode(),
+            MyFilter::make()->stackMode(),
+            MyFilter::make()->wrapMode(),
         ];
     }
 

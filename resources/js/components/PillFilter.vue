@@ -1,16 +1,32 @@
 <template>
 
-    <div ref="viewport" class="overflow-hidden pill-filter">
+    <div class="pill-filter overflow-hidden relative" ref="viewport">
 
-        <div>
+        <div class="pt-2 pb-3">
 
-            <h3 class="text-sm uppercase tracking-wide text-80 bg-30 p-3">
-                {{ filter.name }}
+            <h3 class="px-3 text-xs uppercase font-bold tracking-wide flex justify-between items-center">
+
+                <span>{{ filter.name }}</span>
+
+                <svg v-if="filter.mode === 'drag'"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke-width="1.5"
+                     stroke="currentColor"
+                     class="w-6 h-5">
+
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5"/>
+
+                </svg>
+
             </h3>
 
-            <div ref="content" class="flex px-2 pb-2" :class="{ 'flex-wrap': filter.mode === 'wrap' }">
+            <div class="flex mt-1 px-3" :class="{ 'flex-wrap': filter.mode === 'wrap', 'grid': filter.mode === 'stack' }"
+                 ref="content">
 
-                <Pill v-if="filter.showSelectNoneButton" :active="currentActive.length === 0"
+                <Pill v-if="filter.showSelectNoneButton"
+                      :active="currentActive.length === 0"
+                      :class="{ 'pointer-events-none' : isDragging }"
                       @click.native="clearFilters()">
 
                     {{ filter.noneLabel }}
@@ -19,10 +35,11 @@
 
                 <Pill v-for="option in filter.options"
                       :key="option.value"
+                      :class="{ 'pointer-events-none' : isDragging }"
                       :active="currentActive.includes(option.value)"
                       @click.native="enableFilter(option.value)">
 
-                    {{ option.name }}
+                    {{ option.label }}
 
                 </Pill>
 
@@ -36,46 +53,88 @@
 
 <script>
 
-    import Pill from './Pill'
+    import Pill from './Pill.vue'
     import ScrollBooster from 'scrollbooster'
 
     export default {
-        name: 'PillFilter',
         components: { Pill },
+        emits: [ 'change' ],
         props: {
             resourceName: {
                 type: String,
-                required: true
+                required: true,
             },
             filterKey: {
                 type: String,
-                required: true
-            }
+                required: true,
+            },
+            lens: String,
         },
+
+        data: () => ({
+            isDragging: false,
+            scrollBooster: null,
+            timeout: null,
+            value: null,
+        }),
+
+        created() {
+
+            this.setCurrentFilterValue()
+
+        },
+
         mounted() {
+
+            Nova.$on('filter-reset', this.setCurrentFilterValue)
 
             if (this.filter.mode === 'drag') {
 
-                const scrollBooster = new ScrollBooster({
-                    viewport: this.$refs.viewport,
-                    direction: 'horizontal',
-                    emulateScroll: true,
-                    textSelection: true,
-                    onUpdate: data => {
-                        this.$refs.content.style.transform = `translateX(${ -data.position.x }px)`
-                    }
-                })
+                this.timeout = setTimeout(() => {
 
-                this.$on('beforeDestroy', () => scrollBooster.destroy())
+                    if (this.$refs.viewport && this.$refs.content) {
+
+                        this.scrollBooster = new ScrollBooster({
+                            viewport: this.$refs.viewport,
+                            content: this.$refs.content,
+                            scrollMode: 'transform',
+                            direction: 'horizontal',
+                            inputsFocus: false,
+                            textSelection: false,
+                            onUpdate: state => this.isDragging = state.isDragging,
+                        })
+
+                    }
+
+                }, 2000)
 
             }
 
         },
+
+        beforeUnmount() {
+
+            Nova.$off('filter-reset', this.setCurrentFilterValue)
+
+            if (this.timeout) {
+                clearTimeout(this.timeout)
+            }
+
+            if (this.scrollBooster) {
+                this.scrollBooster.destroy()
+            }
+
+        },
+
         methods: {
+            setCurrentFilterValue() {
+                this.value = this.filter.currentValue
+            },
+
             setFilter(value) {
 
                 this.$store.commit(`${ this.resourceName }/updateFilterState`, {
-                    filterClass: this.filterKey, value
+                    filterClass: this.filterKey, value,
                 })
 
                 this.$emit('change')
@@ -106,16 +165,18 @@
 
                 this.setFilter(this.currentActive)
 
-            }
+            },
         },
+
         computed: {
             filter() {
-                return this.$store.getters[ `${ this.resourceName }/getFilter` ](this.filterKey)
+                return this.$store.getters[ `${ this.resourceName }/getFilter` ](
+                    this.filterKey,
+                )
             },
             currentActive() {
                 return this.filter.currentValue || []
-            }
-        }
+            },
+        },
     }
-
 </script>

@@ -36,6 +36,11 @@ abstract class PillFilter extends Filter
         return $this->withMeta([ 'single' => true ]);
     }
 
+    public function stack(): self
+    {
+        return $this->withMeta([ 'stack' => true ]);
+    }
+
     public function noneLabel(string $label): self
     {
         return $this->withMeta([ 'noneLabel' => $label ]);

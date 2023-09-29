@@ -7,8 +7,8 @@
 A Laravel Nova filter that renders into clickable pills.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-pill-filter/nova4/screenshots/dark-1.png">
-  <img alt="PillFilter in Action" src="https://raw.githubusercontent.com/dcasia/nova-pill-filter/nova4/screenshots/light-1.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/dark-1.png">
+  <img alt="PillFilter in Action" src="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/light-1.png">
 </picture>
 
 # Installation
@@ -79,12 +79,12 @@ there is also a `drag` and `stack` mode:
 
 | Drag Mode                                                                                                                                                                                                                                                                 | Stack Mode                                                                                                                                                                                                                                                                | Wrap Mode                                                                                                                                                                                                                                                               |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-pill-filter/nova4/screenshots/drag-dark.png"><img src="https://raw.githubusercontent.com/dcasia/nova-pill-filter/nova4/screenshots/drag-light.png"></picture>  | <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-pill-filter/nova4/screenshots/stack-dark.png"><img src="https://raw.githubusercontent.com/dcasia/nova-pill-filter/nova4/screenshots/stack-light.png"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-pill-filter/nova4/screenshots/wrap-dark.png"><img src="https://raw.githubusercontent.com/dcasia/nova-pill-filter/nova4/screenshots/wrap-light.png"></picture> |
+| <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/drag-dark.png"><img src="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/drag-light.png"></picture>  | <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/stack-dark.png"><img src="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/stack-light.png"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/wrap-dark.png"><img src="https://raw.githubusercontent.com/dcasia/nova-pill-filter/main/screenshots/wrap-light.png"></picture> |
 
 ```php
 class ExampleNovaResource extends Resource {
 
-    public function filters(Request $request)
+    public function filters(NovaRequest $request): array
     {
         return [
             MyFilter::make()->dragMode(),

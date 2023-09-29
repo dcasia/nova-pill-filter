@@ -47,8 +47,8 @@
             --tw-ring-color: rgba(var(--colors-gray-600));
 
             &:hover {
-                background: rgba(var(--colors-primary-700));
-                color: rgba(var(--colors-gray-800));
+                background: rgba(var(--colors-gray-700));
+                color: rgba(var(--colors-gray-200));
             }
 
         }
@@ -63,8 +63,8 @@
         color: rgba(var(--colors-gray-500));
 
         &:hover {
-            background: rgba(var(--colors-primary-400));
-            color: white;
+            background: rgba(var(--colors-gray-200));
+            color: rgba(var(--colors-gray-500));
         }
 
     }

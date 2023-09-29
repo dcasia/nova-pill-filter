@@ -31,14 +31,19 @@ abstract class PillFilter extends Filter
         return $this->withMeta([ 'mode' => 'drag' ]);
     }
 
+    public function stackMode(): self
+    {
+        return $this->withMeta([ 'mode' => 'stack' ]);
+    }
+
+    public function wrapMode(): self
+    {
+        return $this->withMeta([ 'mode' => 'wrap' ]);
+    }
+
     public function single(): self
     {
         return $this->withMeta([ 'single' => true ]);
-    }
-
-    public function stack(): self
-    {
-        return $this->withMeta([ 'stack' => true ]);
     }
 
     public function noneLabel(string $label): self

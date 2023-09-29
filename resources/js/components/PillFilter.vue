@@ -8,7 +8,7 @@
 
                 <span>{{ filter.name }}</span>
 
-                <svg v-if="filter.mode === 'drag' && !this.filter.stack"
+                <svg v-if="filter.mode === 'drag'"
                      fill="none"
                      viewBox="0 0 24 24"
                      stroke-width="1.5"
@@ -21,7 +21,7 @@
 
             </h3>
 
-            <div class="flex mt-1 px-3" :class="{ 'flex-wrap': filter.mode === 'wrap', 'grid': filter.stack }"
+            <div class="flex mt-1 px-3" :class="{ 'flex-wrap': filter.mode === 'wrap', 'grid': filter.mode === 'stack' }"
                  ref="content">
 
                 <Pill v-if="filter.showSelectNoneButton"
@@ -88,7 +88,7 @@
 
             Nova.$on('filter-reset', this.setCurrentFilterValue)
 
-            if (this.filter.mode === 'drag' && !this.filter.stack) {
+            if (this.filter.mode === 'drag') {
 
                 this.timeout = setTimeout(() => {
 

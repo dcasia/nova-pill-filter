@@ -1,34 +1,37 @@
 <template>
 
-    <div ref="viewport" class="overflow-hidden pill-filter">
+    <div class="pill-filter overflow-hidden relative" ref="viewport">
 
-        <div>
+        <FilterContainer>
 
-            <h3 class="text-sm uppercase tracking-wide text-80 bg-30 p-3">
-                {{ filter.name }}
-            </h3>
+            <span>{{ filter.name }}</span>
 
-            <div ref="content" class="flex px-2 pb-2" :class="{ 'flex-wrap': filter.mode === 'wrap' }">
+            <template #filter>
 
-                <Pill v-if="filter.showSelectNoneButton" :active="currentActive.length === 0"
-                      @click.native="clearFilters()">
+                <div class="flex relative" :class="{ 'flex-wrap': filter.mode === 'wrap' }" ref="content">
 
-                    {{ filter.noneLabel }}
 
-                </Pill>
+                    <Pill v-if="filter.showSelectNoneButton" :active="currentActive.length === 0"
+                          @click.native="clearFilters()">
 
-                <Pill v-for="option in filter.options"
-                      :key="option.value"
-                      :active="currentActive.includes(option.value)"
-                      @click.native="enableFilter(option.value)">
+                        {{ filter.noneLabel }}
 
-                    {{ option.name }}
+                    </Pill>
 
-                </Pill>
+                    <Pill v-for="option in filter.options"
+                          :key="option.value"
+                          :active="currentActive.includes(option.value)"
+                          @click.native="enableFilter(option.value)">
 
-            </div>
+                        {{ option.label }}
 
-        </div>
+                    </Pill>
+
+                </div>
+
+            </template>
+
+        </FilterContainer>
 
     </div>
 
@@ -36,46 +39,91 @@
 
 <script>
 
-    import Pill from './Pill'
+    import debounce from 'lodash/debounce'
+    import Pill from './Pill.vue'
     import ScrollBooster from 'scrollbooster'
 
     export default {
-        name: 'PillFilter',
         components: { Pill },
+        emits: [ 'change' ],
+
         props: {
             resourceName: {
                 type: String,
-                required: true
+                required: true,
             },
             filterKey: {
                 type: String,
-                required: true
-            }
+                required: true,
+            },
+            lens: String,
         },
+
+        data: () => ({
+            value: null,
+            debouncedHandleChange: null,
+        }),
+
+        created() {
+            this.debouncedHandleChange = debounce(() => this.handleChange(), 500)
+
+            this.setCurrentFilterValue()
+        },
+
         mounted() {
+            Nova.$on('filter-reset', this.setCurrentFilterValue)
 
             if (this.filter.mode === 'drag') {
 
                 const scrollBooster = new ScrollBooster({
                     viewport: this.$refs.viewport,
+                    content: this.$refs.content,
+                    scrollMode: 'transform',
                     direction: 'horizontal',
-                    emulateScroll: true,
-                    textSelection: true,
-                    onUpdate: data => {
-                        this.$refs.content.style.transform = `translateX(${ -data.position.x }px)`
-                    }
+                    // textSelection: true,
+                    // preventDefaultOnEmulateScroll: true,
+                    // emulateScroll: true,
+                    // emulateScroll: true,
+                    textSelection: false,
+                    // onUpdate: data => {
+                    //     // this.$refs.content.style.transform = `translateX(${ -data.position.x }px)`
+                    // },
                 })
 
-                this.$on('beforeDestroy', () => scrollBooster.destroy())
+                // this.$on('beforeDestroy', () => scrollBooster.destroy())
 
             }
 
         },
+
+        beforeUnmount() {
+            Nova.$off('filter-reset', this.setCurrentFilterValue)
+        },
+
+        watch: {
+            value() {
+                this.debouncedHandleChange()
+            },
+        },
+
         methods: {
+            setCurrentFilterValue() {
+                this.value = this.filter.currentValue
+            },
+
+            handleChange() {
+                this.$store.commit(`${ this.resourceName }/updateFilterState`, {
+                    filterClass: this.filterKey,
+                    value: this.value,
+                })
+
+                this.$emit('change')
+            },
+            ///
             setFilter(value) {
 
                 this.$store.commit(`${ this.resourceName }/updateFilterState`, {
-                    filterClass: this.filterKey, value
+                    filterClass: this.filterKey, value,
                 })
 
                 this.$emit('change')
@@ -106,16 +154,18 @@
 
                 this.setFilter(this.currentActive)
 
-            }
+            },
         },
+
         computed: {
             filter() {
-                return this.$store.getters[ `${ this.resourceName }/getFilter` ](this.filterKey)
+                return this.$store.getters[ `${ this.resourceName }/getFilter` ](
+                    this.filterKey,
+                )
             },
             currentActive() {
                 return this.filter.currentValue || []
-            }
-        }
+            },
+        },
     }
-
 </script>

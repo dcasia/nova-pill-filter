@@ -1,5 +1,5 @@
 import PillFilter from './components/PillFilter'
 
-Nova.booting((Vue, router, store) => {
-    Vue.component('pill-filter', PillFilter)
+Nova.booting((app, store) => {
+    app.component('pill-filter', PillFilter)
 })

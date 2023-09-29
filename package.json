@@ -1,21 +1,16 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch-poll": "npm run watch -- --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "watch": "mix watch",
+        "production": "mix --production",
+        "nova:install": "npm --prefix='../vendor/laravel/nova' ci"
     },
     "devDependencies": {
-        "cross-env": "^5.0.0",
-        "laravel-mix": "^5.0.1"
-    },
-    "dependencies": {
-        "scrollbooster": "^2.0.0",
-        "vue": "^2.6.11",
-        "vue-template-compiler": "^2.6.11"
+        "@vue/compiler-sfc": "^3.3.4",
+        "laravel-mix": "^6.0.49",
+        "mix-tailwindcss": "^1.3.0",
+        "scrollbooster": "^3.0.2",
+        "tailwindcss": "^3.3.3",
+        "vue-loader": "^17.2.2"
     }
 }

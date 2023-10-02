@@ -21,7 +21,8 @@
 
             </h3>
 
-            <div class="flex mt-1 px-3" :class="{ 'flex-wrap': filter.mode === 'wrap', 'grid': filter.mode === 'stack' }"
+            <div class="flex mt-1 px-3"
+                 :class="{ 'flex-wrap': filter.mode === 'wrap', 'grid': filter.mode === 'stack' }"
                  ref="content">
 
                 <Pill v-if="filter.showSelectNoneButton"
@@ -142,7 +143,7 @@
             },
             clearFilters() {
 
-                this.setFilter([])
+                this.setFilter('')
 
             },
             enableFilter(value) {

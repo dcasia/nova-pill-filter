@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/digital-creative/nova-pill-filter)](https://packagist.org/packages/digital-creative/nova-pill-filter)
 [![Total Downloads](https://img.shields.io/packagist/dt/digital-creative/nova-pill-filter)](https://packagist.org/packages/digital-creative/nova-pill-filter)
-[![License](https://img.shields.io/packagist/l/digital-creative/nova-pill-filter)](https://github.com/dcasia/nova-pill-filter/blob/master/LICENSE)
+[![License](https://img.shields.io/packagist/l/digital-creative/nova-pill-filter)](https://github.com/dcasia/nova-pill-filter/blob/main/LICENSE)
 
 A Laravel Nova filter that renders into clickable pills.
 
